@@ -87,21 +87,25 @@ function SleepDataResult({sleepData}){
 		return islands[sleepData.island]["dp"][sleepData.pkmCount];
 	}
 	
-	function calScore() {
+	function calRequiredScore() {
 		return Math.round(getRequiredDp() / sleepData.currEnergy);
 	}
 	
 	function calSleepingTime(){
-		return calScore() * 5.1;
+		return calRequiredScore() * 5.1;
+	}
+	
+	function calDp(){
+		return sleepData.currEnergy * calRequiredScore();
 	}
 	
 	return (
 		<>
 			<h1>Result</h1>
 			<p>Required DP: {getRequiredDp()}</p>
-			<p>Sleeping Score: {calScore()}</p>
+			<p>Sleeping Score: {calRequiredScore()}</p>
 			<p>Sleeping Time: {calSleepingTime().toFixed(1)} mins</p>
-			<p>DP: {Math.round(calSleepingTime() * sleepData.currEnergy)}</p>
+			<p>DP: {calDp()}</p>
 		</>
 	)
 }
