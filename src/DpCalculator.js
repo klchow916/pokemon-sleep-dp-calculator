@@ -106,6 +106,10 @@ function SleepDataResult({sleepData}){
 		return calRequiredScore() * 5.1;
 	}
 	
+	function minute2Hour(min){
+		return `${Math.floor(min / 60)}h${Math.floor(min % 60)}m${Math.round(min % 60 % 1 * 60)}s`; 
+	}
+	
 	function calDp(){
 		return getEnergy() * calRequiredScore();
 	}
@@ -115,7 +119,7 @@ function SleepDataResult({sleepData}){
 			<h1>Result</h1>
 			<p>Required DP: {getRequiredDp()}</p>
 			<p>Sleeping Score: {calRequiredScore()}</p>
-			<p>Sleeping Time: {calSleepingTime().toFixed(1)} mins</p>
+			<p>Sleeping Time: {calSleepingTime().toFixed(1)} mins ({minute2Hour(calSleepingTime())})</p>
 			<p>DP: {calDp()}</p>
 		</>
 	)
