@@ -24,8 +24,9 @@ const islands = {
 	},
 }
 
+const goodSleepDayEventMultiplier = [1, 1.5, 2, 2.5, 3, 4];
+
 function SelectField({label, options, handleChange, value}){
-	console.log(value);
 	return (
 		<div className="form-item">
 			<label>{label}:</label>
@@ -73,10 +74,16 @@ function SleepDataForm({sleepData, handleChange}){
 				value={sleepData.currEnergy}
 			/>
 			<SelectField
-				label={"Pokemon Count"}
+				label={"Desired Pokemon Count"}
 				options={[...Array(5).keys()].map(x => {return {value: x + 4, name: x + 4}})}
 				handleChange={value => handleChange({pkmCount: value})}
 				value={sleepData.pkmCount}
+			/>
+			<SelectField
+				label={"Good Sleep Day Multiplier"}
+				options={goodSleepDayEventMultiplier.map(x => {return {value: x, name: x}})}
+				handleChange={value => handleChange({goodSleepDayEventMultiplier: value})}
+				value={sleepData.goodSleepDayEventMultiplier}
 			/>
 		</form>
 	)
@@ -87,8 +94,12 @@ function SleepDataResult({sleepData}){
 		return islands[sleepData.island]["dp"][sleepData.pkmCount];
 	}
 	
+	function getEnergy(){
+		return Math.floor(sleepData.currEnergy * sleepData.goodSleepDayEventMultiplier);
+	}
+	
 	function calRequiredScore() {
-		return Math.round(getRequiredDp() / sleepData.currEnergy);
+		return Math.round(getRequiredDp() / getEnergy());
 	}
 	
 	function calSleepingTime(){
@@ -96,7 +107,7 @@ function SleepDataResult({sleepData}){
 	}
 	
 	function calDp(){
-		return sleepData.currEnergy * calRequiredScore();
+		return getEnergy() * calRequiredScore();
 	}
 	
 	return (
@@ -114,7 +125,8 @@ export default function DpCalculator() {
 	const [sleepData, setSleepData] = useState({
 		island: 'GG',
 		currEnergy: 0,
-		pkmCount: 4
+		pkmCount: 4,
+		goodSleepDayEventMultiplier: 1
 	})
 	
 	function handleChange(prop){
