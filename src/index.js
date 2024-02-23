@@ -9,7 +9,7 @@ root.render(
   <React.StrictMode>
       <BrowserRouter>
           <Routes>
-              <Route path="/" element={<DpCalculator />} />
+              <Route path="/pokemon-sleep-dp-calculator" element={<DpCalculator />} />
           </Routes>
       </BrowserRouter>
   </React.StrictMode>
