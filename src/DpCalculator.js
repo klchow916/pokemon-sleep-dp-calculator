@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
+import { useSearchParams } from "react-router-dom";
 import './main.css';
 
 const islands = {
@@ -126,6 +127,8 @@ function SleepDataResult({sleepData}){
 }
 
 export default function DpCalculator() {
+	let [searchParams, setSearchParams] = useSearchParams();
+	
 	const [sleepData, setSleepData] = useState({
 		island: 'GG',
 		currEnergy: 0,
@@ -133,9 +136,18 @@ export default function DpCalculator() {
 		goodSleepDayEventMultiplier: 1
 	})
 	
+	useEffect(() => {
+		setSleepData({
+			island: searchParams.get('island') || 'GG',
+			currEnergy: searchParams.get('currEnergy') || 0,
+			pkmCount: searchParams.get('pkmCount') || 4,
+			goodSleepDayEventMultiplier: searchParams.get('goodSleepDayEventMultiplier') || 1
+		})
+	}, [searchParams]);
+	
 	function handleChange(prop){
-		setSleepData(state => {
-			return {...state, ...prop};
+		setSearchParams(params => {
+			return {...Object.fromEntries(params.entries()), ...prop};
 		});
 	}
 	

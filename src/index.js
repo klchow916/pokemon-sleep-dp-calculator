@@ -2,11 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import DpCalculator from './DpCalculator';
 import reportWebVitals from './reportWebVitals';
+import {Routes, Route, BrowserRouter} from "react-router-dom"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <DpCalculator />
+      <BrowserRouter>
+          <Routes>
+              <Route path="/" element={<DpCalculator />} />
+          </Routes>
+      </BrowserRouter>
   </React.StrictMode>
 );
 
